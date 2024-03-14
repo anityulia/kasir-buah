@@ -15,6 +15,8 @@ public class Registrasi extends javax.swing.JFrame {
      */
     public Registrasi() {
         initComponents();
+        k.connect();
+        refreshTable();
     }
  
     class user extends Registrasi {
@@ -37,7 +39,7 @@ public class Registrasi extends javax.swing.JFrame {
              model.addColumn("Id Level");   
              table_Registrasi.setModel(model);
              try {
-             this.stat = k.getCon().prepareStatement("select * from user");
+             this.stat = k.getCon().prepareStatement("select * from Registrasi");
              this.rs = this.stat.executeQuery();
              while (rs.next()) {
                  Object[] data = {
@@ -81,11 +83,13 @@ public class Registrasi extends javax.swing.JFrame {
         btn_menu_buah = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setEnabled(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("REGISTRASI");
 
         jButton1.setText("LOGOUT");
+        jButton1.setEnabled(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -134,6 +138,7 @@ public class Registrasi extends javax.swing.JFrame {
         jScrollPane1.setViewportView(table_Registrasi);
 
         btn_input.setText("INPUT");
+        btn_input.setDoubleBuffered(true);
         btn_input.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_inputActionPerformed(evt);
@@ -264,7 +269,7 @@ public class Registrasi extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             user u = new user();
-            this.stat = k.getCon().prepareStatement("insert into user values(?,?,?,?,?)");
+            this.stat = k.getCon().prepareStatement("insert into Registrasi values(?,?,?,?,?)");
             stat.setInt(1,0);
             stat.setString(2,u.Username);
             stat.setString(3,u.Password);
@@ -316,10 +321,10 @@ public class Registrasi extends javax.swing.JFrame {
 
     private void btn_menu_buahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_menu_buahActionPerformed
         // TODO add your handling code here:
-        Produk p = new Produk
-        p.setVisible(true);
+        Produk p = new Produk();
+         p.setVisible(true);
         this.setVisible(false);
-         p .btn_input.setEnabled(true);   
+         p.btn_input.setEnabled(true);   
          p.btn_update.setEnabled(true); 
          p.btn_delete.setEnabled(true);
          p.btn_transaksi.setEnabled(true);   
@@ -360,12 +365,12 @@ public class Registrasi extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_delete;
-    private javax.swing.JButton btn_input;
+    public javax.swing.JButton btn_delete;
+    public javax.swing.JButton btn_input;
     private javax.swing.JButton btn_menu_buah;
-    private javax.swing.JButton btn_update;
+    public javax.swing.JButton btn_update;
     private javax.swing.JComboBox combo_id_level;
-    private javax.swing.JButton jButton1;
+    public javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

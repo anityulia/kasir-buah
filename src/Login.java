@@ -12,7 +12,8 @@ public class Login extends javax.swing.JFrame {
     
     public Login() {
         initComponents();
-        k.Connect();
+        k.connect();
+        
     }
 
   class KLogin {
@@ -37,8 +38,8 @@ public class Login extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtusername = new javax.swing.JTextField();
-        txtpsw = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        txtpsw = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,11 +75,11 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(jLabel3))
                 .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtusername)
-                    .addComponent(txtpsw, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+                    .addComponent(txtusername, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(11, 11, 11)
-                        .addComponent(jButton1)))
+                        .addComponent(jButton1))
+                    .addComponent(txtpsw))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -116,15 +117,15 @@ public class Login extends javax.swing.JFrame {
             }else{
                 switch(f.id_level){
                     case 1:
-                        Registrasi reg = new Registrasi();
-                        reg.setVisible(true);
+                        MenuUtama m  = new MenuUtama();
+                        m.setVisible(true);
                         this.setVisible(false);
                         break;
                     case 2:
                         Transaksi tran = new Transaksi();
                         tran.setVisible(true);
                         this.setVisible(false);
-                        tran.btn_cetak_laporan.setEnable(true);
+                        tran.btn_cetak_laporan.setEnabled(true);
                         break;
                     case 3:
                         Detail_Penjualan dp = new Detail_Penjualan();
@@ -132,10 +133,10 @@ public class Login extends javax.swing.JFrame {
                         this.setVisible(false);
                         break;
                     case 4:
-                        Produk p = new Produk();
+                        Produk p = new Produk ();
                         p.setVisible(true);
                         this.setVisible(false);
-                        p.btn_logout.setEnable(true);
+                        p.btn_logout.setEnabled(true);
                         
                         
               
@@ -161,7 +162,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField txtpsw;
+    private javax.swing.JPasswordField txtpsw;
     private javax.swing.JTextField txtusername;
     // End of variables declaration//GEN-END:variables
 }

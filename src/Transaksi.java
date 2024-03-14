@@ -24,14 +24,14 @@ public class Transaksi extends javax.swing.JFrame {
     }
 
     class transaksi extends Transaksi  {
-        int Id_Transaksi, Id_Buah, Harga,Jumlah_Beli,Total_Bayar;
+        int Id_Transaksi,ProdukID, Harga,Jumlah_Beli,Total_Bayar;
         String Nama_Pelanggan, Tanggal, Nama_Buah;
     
         public transaksi() {
-            this.Nama_Pelanggan = text_nama_pelanggan.getText();
+            this.Nama_Pelanggan = jLabel3.getText();
             String combo = combo_id_buah.getSelectedItem().toString();
             String[] arr = combo.split(":");
-             this.Id_Buah = Integer.parseInt(arr[0]);
+             this.ProdukID = Integer.parseInt(arr[0]);
              try {
                 Date date = text_Tanggal.getDate();
                 DateFormat dateformat = new SimpleDateFormat("YYYY-MM-DD");
@@ -40,8 +40,9 @@ public class Transaksi extends javax.swing.JFrame {
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
-            this.Nama_Pelanggan = arr[1];
-            this.Jumlah_Beli = Integer.parseInt(arr[2]);
+            this.Nama_Buah = arr[1];
+            this.Harga = Integer.parseInt(arr[2]);
+            this.Jumlah_Beli = Integer.parseInt(text_jml_beli.getText());
             this.Total_Bayar = this.Harga * this.Jumlah_Beli;
                     
         }
@@ -51,7 +52,7 @@ public class Transaksi extends javax.swing.JFrame {
         model = new DefaultTableModel();
         model.addColumn("Id_Transkasi");
         model.addColumn("Nama_Pelanggan");
-        model.addColumn("Id_Buah");
+        model.addColumn("ProdukID");
         model.addColumn("Tanggal");
         model.addColumn("Nama_Buah");
         model.addColumn("Harga");
@@ -78,18 +79,18 @@ public class Transaksi extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
         text_id_transaksi.setText("");
-        text_nama_pelanggan.setText("");
         text_jml_beli.setText("");
         text_total_bayar.setText("");
+
     }
      
     public void refreshcombo (){
         try {
-            this.stat = k.getCon().prepareStatement("select * from Produk" + "where Stok='Tersedia'");
+            this.stat = k.getCon().prepareStatement("select * from Produk where Stok>0");
             this.rs = this.stat.executeQuery();
             while (rs.next()) {
-                combo_id_buah.addItem(rs.getString("Id_Buah")+":"+
-                        rs.getString("Nama_Buah")+":"+ rs.getString("Harga"));
+                combo_id_buah.addItem(rs.getString("ProdukID")+":"+
+                        rs.getString("NamaProduk")+":"+ rs.getString("Harga"));
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -101,19 +102,19 @@ public class Transaksi extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        text_id_transaksi = new javax.swing.JLabel();
-        text_nama_pelanggan = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         text_id_buah = new javax.swing.JLabel();
         text_tanggal = new javax.swing.JLabel();
-        text_jml_beli = new javax.swing.JLabel();
-        text_total_bayar = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        text_id_transaksi = new javax.swing.JTextField();
+        text_nama_pelanggan = new javax.swing.JTextField();
         combo_id_buah = new javax.swing.JComboBox();
         menu_Buah = new javax.swing.JButton();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
+        text_jml_beli = new javax.swing.JTextField();
+        text_total_bayar = new javax.swing.JTextField();
         btn_input = new javax.swing.JButton();
         btn_update = new javax.swing.JButton();
         btn_delete = new javax.swing.JButton();
@@ -127,11 +128,11 @@ public class Transaksi extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("TRANSAKSI");
 
-        text_id_transaksi.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        text_id_transaksi.setText("ID Transaksi");
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel2.setText("ID Transaksi");
 
-        text_nama_pelanggan.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        text_nama_pelanggan.setText("Nama Pelanggan");
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel3.setText("Nama Pelanggan");
 
         text_id_buah.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         text_id_buah.setText("ID Buah");
@@ -139,13 +140,14 @@ public class Transaksi extends javax.swing.JFrame {
         text_tanggal.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         text_tanggal.setText("Tanggal ");
 
-        text_jml_beli.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        text_jml_beli.setText("Jumlah Beli");
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel6.setText("Jumlah Beli");
 
-        text_total_bayar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        text_total_bayar.setText("Total Bayar");
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel7.setText("Total Bayar");
 
         jButton1.setText("LOGOUT");
+        jButton1.setEnabled(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -165,9 +167,10 @@ public class Transaksi extends javax.swing.JFrame {
             }
         });
 
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+        text_total_bayar.setEnabled(false);
+        text_total_bayar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
+                text_total_bayarActionPerformed(evt);
             }
         });
 
@@ -236,23 +239,23 @@ public class Transaksi extends javax.swing.JFrame {
                         .addComponent(btn_cetak_laporan))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(text_id_transaksi)
-                            .addComponent(text_nama_pelanggan)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
                             .addComponent(text_id_buah)
                             .addComponent(text_tanggal)
-                            .addComponent(text_jml_beli)
-                            .addComponent(text_total_bayar))
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7))
                         .addGap(47, 47, 47)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
-                                .addComponent(jTextField2)
+                                .addComponent(text_id_transaksi, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
+                                .addComponent(text_nama_pelanggan)
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                     .addComponent(combo_id_buah, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
                                     .addComponent(menu_Buah))
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(text_jml_beli, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(text_total_bayar, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(text_Tanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -272,12 +275,12 @@ public class Transaksi extends javax.swing.JFrame {
                         .addComponent(jButton1)))
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(text_id_transaksi)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2)
+                    .addComponent(text_id_transaksi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(text_nama_pelanggan)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel3)
+                    .addComponent(text_nama_pelanggan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(24, 24, 24)
@@ -293,12 +296,12 @@ public class Transaksi extends javax.swing.JFrame {
                     .addComponent(text_Tanggal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(text_jml_beli)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel6)
+                    .addComponent(text_jml_beli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(text_total_bayar)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel7)
+                    .addComponent(text_total_bayar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(52, 52, 52)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_input)
@@ -313,9 +316,9 @@ public class Transaksi extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+    private void text_total_bayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_total_bayarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
+    }//GEN-LAST:event_text_total_bayarActionPerformed
 
     private void combo_id_buahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combo_id_buahActionPerformed
         // TODO add your handling code here:
@@ -326,10 +329,10 @@ public class Transaksi extends javax.swing.JFrame {
         try {
             transaksi t = new transaksi ();
             text_total_bayar.setText(""+t.Total_Bayar);
-            this.stat = k.getCon().prepareStatement("insert into transaksi values(?,?,?,?,?,?,?,?,?");
+            this.stat = k.getCon().prepareStatement("insert into transaksi values(?,?,?,?,?,?,?,?)");
             this.stat.setInt(1, 0);
             this.stat.setString(2, t.Nama_Pelanggan);
-            this.stat.setInt(3, t.Id_Buah);
+            this.stat.setInt(3, t.ProdukID);
             this.stat.setString(4, t.Tanggal);
             this.stat.setString(5, t.Nama_Buah);
             this.stat.setInt(6, t.Harga);
@@ -338,7 +341,7 @@ public class Transaksi extends javax.swing.JFrame {
             int pilihan = JOptionPane.showConfirmDialog(null,
                     "tanggal: "+t.Tanggal+
                             "\nNama_Pelanggan : "+t.Nama_Pelanggan+
-                            "\nPembelian : "+t.Jumlah_Beli+" "+t.Id_Buah+
+                            "\nPembelian : "+t.Jumlah_Beli+" "+t.ProdukID+
                             "\nTotal_Bayar : "+t.Total_Bayar+"\n",
                             "Tambah Transaksi?",
                             JOptionPane.YES_NO_OPTION);
@@ -362,17 +365,18 @@ public class Transaksi extends javax.swing.JFrame {
 
     private void btn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_updateActionPerformed
         try {
-            transaksi t = new transaksi
-          t.id_transaksi = Integer.parseInt(text_id_transaksi.getText());        
-          this.stat = k.getCon().prepareStatement("Update transaksi nama_planggan=?," + "Id_Buah=?, tanggal=?,nama_Buah=? ,harga=? ,Total_Bayar=?  where Id_transaksi=?");
+            transaksi t = new transaksi();
+          t.Id_Transaksi = Integer.parseInt(text_id_transaksi.getText());        
+          this.stat = k.getCon().prepareStatement("Update transaksi Nama_Pelanggan=?, ProdukID=?, Tanggal=?, "
+                  + "Nama_Buah=? , Harga=? , Jumlah_Beli=?, Total_Bayar=?  where Id_Transaksi=?");
          this.stat.setString(1, t.Nama_Pelanggan);
-         this.stat.setInt(2, t.Id_Buah);
+         this.stat.setInt(2, t.ProdukID);
          this.stat.setString(3, t.Tanggal);
          this.stat.setString(4, t.Nama_Buah);
          this.stat.setInt(5, t.Harga);
          this.stat.setInt(6, t.Jumlah_Beli);
           this.stat.setInt(7, t.Total_Bayar);
-          this.stat.setInt(8, t.Id_Transaksi);
+          this.stat.setInt(8, Integer.parseInt(text_id_transaksi.getText()));
           this.stat.executeUpdate();
           RefreshTable();
         } catch (Exception e) {
@@ -385,15 +389,15 @@ public class Transaksi extends javax.swing.JFrame {
         // TODO add your handling code here:
         text_id_transaksi.setText(model.getValueAt(table_transaksi.getSelectedRow(), 0) . toString());
      text_nama_pelanggan.setText(model.getValueAt(table_transaksi.getSelectedRow(), 1) . toString());
-      text_jml_beli.setText(model.getValueAt(table_transaksi.getSelectedRow(), 2) . toString());
-       text_total_bayar.setText(model.getValueAt(table_transaksi.getSelectedRow(), 0) . toString());
+      text_jml_beli.setText(model.getValueAt(table_transaksi.getSelectedRow(), 6) . toString());
+       text_total_bayar.setText(model.getValueAt(table_transaksi.getSelectedRow(), 7) . toString());
     }//GEN-LAST:event_table_transaksiMouseClicked
 
     private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
         // TODO add your handling code here:
         try {
-            transaksi t = new transaksi
-                    t.id_transaksi = Integer.parseInt(text_id_transaksi);
+            transaksi t = new transaksi();
+                    t.Id_Transaksi = Integer.parseInt(text_id_transaksi.getText());
                     this.stat =k.getCon().prepareStatement("delete from transaksi"
                     + "where id_transaksi=?");
                     this.stat.setInt(1, t.Id_Transaksi);
@@ -407,12 +411,12 @@ public class Transaksi extends javax.swing.JFrame {
 
     private void menu_BuahMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menu_BuahMouseClicked
         // TODO add your handling code here:
-        menu_Buah buah = new menu_buah();
-        buah.setVisible(true);
+        Produk p= new Produk();
+        p.setVisible(true);
         this.setVisible(false);
-        buah.btn_delete.setEnabled(true);
-        buah.btn_input.setVisibled(true);
-        buah.btn_transaksi.setVisible(true);
+        p.btn_delete.setEnabled(true);
+        p.btn_input.setEnabled(true);
+        p.btn_transaksi.setEnabled(true);
                 
     }//GEN-LAST:event_menu_BuahMouseClicked
 
@@ -452,26 +456,26 @@ public class Transaksi extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_cetak_laporan;
-    private javax.swing.JButton btn_delete;
-    private javax.swing.JButton btn_input;
-    private javax.swing.JButton btn_update;
+    public javax.swing.JButton btn_cetak_laporan;
+    public javax.swing.JButton btn_delete;
+    public javax.swing.JButton btn_input;
+    public javax.swing.JButton btn_update;
     private javax.swing.JComboBox combo_id_buah;
-    private javax.swing.JButton jButton1;
+    public javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JButton menu_Buah;
     private javax.swing.JTable table_transaksi;
     private com.toedter.calendar.JDateChooser text_Tanggal;
     private javax.swing.JLabel text_id_buah;
-    private javax.swing.JLabel text_id_transaksi;
-    private javax.swing.JLabel text_jml_beli;
-    private javax.swing.JLabel text_nama_pelanggan;
+    private javax.swing.JTextField text_id_transaksi;
+    private javax.swing.JTextField text_jml_beli;
+    private javax.swing.JTextField text_nama_pelanggan;
     private javax.swing.JLabel text_tanggal;
-    private javax.swing.JLabel text_total_bayar;
+    private javax.swing.JTextField text_total_bayar;
     // End of variables declaration//GEN-END:variables
 }
